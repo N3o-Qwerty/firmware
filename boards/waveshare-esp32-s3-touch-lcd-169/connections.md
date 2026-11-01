@@ -26,22 +26,20 @@ TFT_eSPI's 240x280 ST7789 path inserts the 20-pixel CGRAM offset (`rowstart = 20
 
 No SD socket, microphone, I2S speaker, RGB LED, FM radio, CC1101, NRF24, PN532, or LoRa. Those Bruce features are compiled off or their pins are -1. RF, NRF24, LoRa, and Ethernet start hidden in the menu.
 
-The extension header is 5V, 3V3, GND, I2C (GPIO10/11, shared with touch and RTC), UART (GPIO43/44), and GPIO2, GPIO3, GPIO17, GPIO18. That is not enough free pins for a CC1101 (SCK, MOSI, MISO, CS, GDO0) unless UART is given up. Do not use GPIO26-37; they are the flash and octal PSRAM bus.
+The extension header is 5V, 3V3, GND, I2C (GPIO10/11, shared with touch and RTC), UART (GPIO43/44), and GPIO2, GPIO3, GPIO17, GPIO18. That is not enough free pins for a CC1101 (SCK, MOSI, MISO, CS, GDO0) unless UART is given up. Do not use GPIO26-37. They are the flash and octal PSRAM bus, including GPIO33-37.
 
 I2C addresses already taken: `0x15`, `0x6B`, `0x51`.
 
-## Older PCB
+Only the current Waveshare pinout is supported (model string printed on the PCB: PWR on GPIO40, battery latch on GPIO41, buzzer on GPIO42). Older boards route the power button and latch to GPIO36 and GPIO35. Those are octal-PSRAM data lines while the 8MB PSRAM is enabled, so this firmware does not remap them and does not offer a legacy build.
 
-Boards with no model string printed on them use a different power/buzzer map (Waveshare FAQ):
+## Buttons to check on hardware
 
-| Signal | Current | Legacy |
-| --- | ---: | ---: |
-| SYS_EN | GPIO41 | GPIO35 |
-| SYS_OUT | GPIO40 | GPIO36 |
-| Buzzer | GPIO42 | GPIO33 |
-| RTC INT | GPIO39 | GPIO41 |
+`checkReboot()` runs from the main menu and, once PWR is low, waits in a loop until the button is released or three seconds pass.
 
-Build the legacy power circuit with `-DWS169_LEGACY_PWR=1`. The legacy buzzer pin is an octal-PSRAM data line, so it stays disabled in that build.
+- Holding PWR through power-on is ignored for the first 1.5 seconds. If it is still held when the menu starts calling `checkReboot()`, the UI blocks on that wait and then turns the board off. Release PWR after the picture appears.
+- A short PWR press is Esc (back). It is counted on release, only after 1.2 seconds from boot, and only if the hold was under about 700ms. A longer hold does not send Esc. It belongs to the power-off wait above.
+
+Pull-request CI (`.github/workflows/PR_check.yml`) does not compile this env. The name is on the manual and dispatch build lists only.
 
 ## Flash
 

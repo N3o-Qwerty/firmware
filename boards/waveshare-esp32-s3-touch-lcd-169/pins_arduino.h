@@ -21,22 +21,12 @@ static const uint8_t SDA = 11;
 static const uint8_t SCL = 10;
 
 // Default SPI object must not claim the LCD bus (GPIO6/7) or the octal-PSRAM
-// pins (GPIO33-37). These are the free extension GPIOs only.
+// pins. GPIO26-37 are the flash and octal-PSRAM bus on this ESP32-S3R8.
+// Older Waveshare boards route SYS_EN/SYS_OUT to GPIO35/GPIO36; those are
+// PSRAM lines, so this target does not support that revision.
 static const uint8_t SS = 17;
 static const uint8_t MOSI = 18;
 static const uint8_t MISO = 2;
 static const uint8_t SCK = 3;
-
-// Legacy PCBs (no model string printed on the board) move the power latch and
-// the buzzer onto pins that the current Waveshare docs assign differently.
-// GPIO33 is also an octal-PSRAM data line, so the legacy buzzer stays off
-// while PSRAM is enabled. Pass -DWS169_LEGACY_PWR to select that power circuit.
-#if defined(WS169_LEGACY_PWR)
-#undef WS_SYS_EN
-#undef WS_PWR_BTN
-#undef BUZZ_PIN
-#define WS_SYS_EN 35
-#define WS_PWR_BTN 36
-#endif
 
 #endif /* Pins_Arduino_h */

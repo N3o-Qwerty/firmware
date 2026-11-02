@@ -33,6 +33,7 @@ DEFAULT_ENVS=(
   lilygo-t-embed
   lilygo-t-deck
   lilygo-t-watch-s3
+  waveshare-esp32-s3-touch-lcd-169
   lilygo-t-deck-pro
   lilygo-t-display-s3
   lilygo-t-display-s3-touch

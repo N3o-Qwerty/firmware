@@ -67,6 +67,7 @@ jobs:
           - { env: "lilygo-t-embed",                  family: "ESP32-S3",}
           - { env: "lilygo-t-deck",                   family: "ESP32-S3",}
           - { env: "lilygo-t-watch-s3",               family: "ESP32-S3",}
+          - { env: "waveshare-esp32-s3-touch-lcd-169",    family: "ESP32-S3",}
           - { env: "lilygo-t-deck-pro",               family: "ESP32-S3",}
           - { env: "lilygo-t-display-s3",             family: "ESP32-S3",}
           - { env: "lilygo-t-display-s3-touch",       family: "ESP32-S3",}

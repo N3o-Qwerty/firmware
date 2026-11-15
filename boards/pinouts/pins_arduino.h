@@ -36,6 +36,8 @@
 #include "../reaper/pins_arduino.h"
 #elif T_WATCH_S3
 #include "../lilygo-t-watch-s3/pins_arduino.h"
+#elif WAVESHARE_S3_TOUCH_LCD_169
+#include "../waveshare-esp32-s3-touch-lcd-169/pins_arduino.h"
 #elif T_DISPLAY_S3_PRO
 #include "../lilygo-t-display-s3-pro/pins_arduino.h"
 #elif TTGO
